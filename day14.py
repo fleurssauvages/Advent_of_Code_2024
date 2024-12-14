@@ -15,17 +15,15 @@ for line in lines:
     x = re.findall("-?[0-9]+", line)
     positions.append([int(x[0]), int(x[1])])
     velocities.append([int(x[2]), int(x[3])])
-    
-#Q1
-newPositions = []
-for i, data in enumerate(zip(positions, velocities)):
-    p, v = data
-    newPositions.append([(p[0]+v[0]*100)%mapWidth, (p[1]+v[1]*100)%mapHeight])
 
-quadrant1 = np.sum([1 if p[0] < mapWidth//2 and p[1] < mapHeight//2 else 0 for p in newPositions])
-quadrant2 = np.sum([1 if p[0] > mapWidth//2 and p[1] < mapHeight//2 else 0 for p in newPositions])
-quadrant3 = np.sum([1 if p[0] < mapWidth//2 and p[1] > mapHeight//2 else 0 for p in newPositions])
-quadrant4 = np.sum([1 if p[0] > mapWidth//2 and p[1] > mapHeight//2 else 0 for p in newPositions])
+positions, velocities = np.array(positions), np.array(velocities)
+
+#Q1
+newPositions = (positions + velocities*100)%[mapWidth, mapHeight]
+quadrant1 = np.sum(np.logical_and(newPositions[:,0] < mapWidth//2, newPositions[:,1] < mapHeight//2))
+quadrant2 = np.sum(np.logical_and(newPositions[:,0] > mapWidth//2, newPositions[:,1] < mapHeight//2))
+quadrant3 = np.sum(np.logical_and(newPositions[:,0] < mapWidth//2, newPositions[:,1] > mapHeight//2))
+quadrant4 = np.sum(np.logical_and(newPositions[:,0] > mapWidth//2, newPositions[:,1] > mapHeight//2))
 safety = quadrant1*quadrant2*quadrant3*quadrant4
 
 print("Safety is: {}".format(safety))
@@ -33,11 +31,8 @@ print("Safety is: {}".format(safety))
 #Q2
 seconds = 100
 while True:
-    newPositions = set()
-    for i, data in enumerate(zip(positions, velocities)):
-        p, v = data
-        newPositions.add(((p[0]+v[0]*seconds)%mapWidth, (p[1]+v[1]*seconds)%mapHeight))
-    if len(newPositions) == len(positions):
+    newPositions = np.unique((positions + velocities*seconds)%[mapWidth, mapHeight], axis = 0)
+    if newPositions.shape[0] == positions.shape[0]:
         break
     seconds += 1
     
