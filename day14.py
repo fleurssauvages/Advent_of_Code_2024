@@ -15,7 +15,6 @@ for line in lines:
     x = re.findall("-?[0-9]+", line)
     positions.append([int(x[0]), int(x[1])])
     velocities.append([int(x[2]), int(x[3])])
-
 positions, velocities = np.array(positions), np.array(velocities)
 
 #Q1
@@ -31,7 +30,7 @@ print("Safety is: {}".format(safety))
 #Q2
 seconds = 100
 while True:
-    newPositions = np.unique((positions + velocities*seconds)%[mapWidth, mapHeight], axis = 0)
+    newPositions = np.unique((positions + velocities*seconds)%[mapWidth, mapHeight], axis=0)
     if newPositions.shape[0] == positions.shape[0]:
         break
     seconds += 1
