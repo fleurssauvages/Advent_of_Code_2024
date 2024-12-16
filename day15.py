@@ -71,7 +71,7 @@ for instruction in instructions:
         newPositionsToCheck = set()
         if np.any([position in walls for position in positionsToCheck]):
             break #Don't move, there is a wall
-        elif np.any([position in stonesRight|stonesLeft for position in positionsToCheck]):
+        elif np.any([position in stonesRight|stonesLeft for position in positionsToCheck]): #There is a stone part
             for position in positionsToCheck:
                 if position in stonesRight and position not in stonesToMoveRight: #There is a right part of a stone which we might move (and haven't checked yet)
                     stonesToMoveRight.append(position) #There is a right part of a stone which we might move
