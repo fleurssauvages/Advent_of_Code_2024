@@ -77,7 +77,7 @@ print("Output is: {}".format("".join([str(output)+"," for output in outputs])))
 solutions = []
 possibilities = [(1, 0)] #Start by finding one digit
 for nbDigits, a in possibilities:
-    for a in range(a, a+8): #We solve bit per bit : each bit can be between 0 and 7
+    for a in range(a, a+8): #We solve bit per bit : each bit can be between 0 and 7, each bit output one digit
         registers = defaultdict(int)
         registers["A"] = a
         output = run(program, registers)
