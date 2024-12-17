@@ -48,7 +48,7 @@ def updateScore(start, startDirection, scoreMap, area):
                 
 updateScore(start, startDirection, scoreMap, area)
 score = scoreMap[end]
-print("--- %s seconds ---" % (time.time() - start_time))
+print("Nb of secondes {0:1.3f}".format(time.time() - start_time))
 print("Best Reindeer Score is: {}".format(int(score)))
 
 #Q2
@@ -79,5 +79,5 @@ start_time = time.time()
 seatsWest = reversePath(end, (0, -1), score, set(), area, scoreMap)
 seatsSouth = reversePath(end, (1, 0), score, set(), area, scoreMap)
 seats = seatsWest|seatsSouth
-print("--- %s seconds ---" % (time.time() - start_time))
+print("Nb of seconds {0:1.3f}".format(time.time() - start_time))
 print("Nb of seats is: {}".format(len(seats)))
