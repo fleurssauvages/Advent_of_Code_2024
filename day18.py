@@ -28,7 +28,7 @@ sys.setrecursionlimit(area.shape[0]*area.shape[1])
 scoreMap = np.ones(area.shape)*area.shape[0]*1000
 scoreMap[start] = 0
 
-def updateScore(start, scoreMap, area):
+def updateScore(start, scoreMap, area): #Classic Djikstra to find minimum path, same as day 16
     queue = [(0, start)]
     neighbours = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     heapify(queue)
@@ -53,7 +53,7 @@ print("Mimimum path to reach the end is: {}".format(int(score)))
 maxPixels = len(falls)
 minPixels = 1024
 iprev = 0
-while True:
+while True: #Dichotomic search
     i = (maxPixels + minPixels)//2
     area = np.zeros((width, height))
     for fall in falls[0:i]:
@@ -61,9 +61,9 @@ while True:
     scoreMap = np.ones(area.shape)*area.shape[0]*1000
     scoreMap[start] = 0
     scoreMap = updateScore(start, scoreMap, area)
-    if scoreMap[end] == area.shape[0]*1000:
+    if scoreMap[end] == area.shape[0]*1000: #It means the end cannot be reached, decrease the number of pixels falling
         maxPixels = i
-    else:
+    else: #End can be reached, icrease the min number of pixels falling
         minPixels = i
     if maxPixels-minPixels == 1 and iprev == i:
         break
