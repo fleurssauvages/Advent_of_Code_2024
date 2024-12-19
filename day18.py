@@ -50,23 +50,32 @@ score = scoreMap[end]
 print("Mimimum path to reach the end is: {}".format(int(score)))
 
 #Q2
+def isThereAPath(i, falls):
+    area = np.zeros((width, height))
+    for fall in falls[0:i+1]:
+        area[fall[0], fall[1]] = 1
+    scoreMap = np.ones(area.shape)*area.shape[0]*1000
+    scoreMap[start] = 0
+    scoreMap = updateScore(start, scoreMap, area)
+    if scoreMap[end] == area.shape[0]*1000:
+        return False
+    return True
+
 maxPixels = len(falls)
 minPixels = 1024
 iprev = 0
 while True: #Dichotomic search
     i = (maxPixels + minPixels)//2
-    area = np.zeros((width, height))
-    for fall in falls[0:i]:
-        area[fall[0], fall[1]] = 1
-    scoreMap = np.ones(area.shape)*area.shape[0]*1000
-    scoreMap[start] = 0
-    scoreMap = updateScore(start, scoreMap, area)
-    if scoreMap[end] == area.shape[0]*1000: #It means the end cannot be reached, decrease the number of pixels falling
+    path = isThereAPath(i, falls)
+    if maxPixels-minPixels == 1: #Length is one, chech if min is the candidate or if max is
+        i = minPixels
+        path = isThereAPath(i, falls)
+        if path: #Min is not the candidate, i equals max, else return min
+            i += 1
+        break
+    if not path: #It means the end cannot be reached, decrease the number of pixels falling
         maxPixels = i
     else: #End can be reached, icrease the min number of pixels falling
         minPixels = i
-    if maxPixels-minPixels == 1 and iprev == i:
-        break
-    iprev = i
 
 print("First Falling pixel is: {}".format(falls[i]))
