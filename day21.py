@@ -38,7 +38,7 @@ def findPath(start, end, keyPad):
 def findFirstSequence(code, keyPad):
     start = "A"
     sequence = defaultdict(int)
-    for letter in code:
+    for letter in code: #For each letter, find the associated motion
         path = findPath(start, letter, keyPad)
         sequence[path] += 1
         start = letter
@@ -46,12 +46,12 @@ def findFirstSequence(code, keyPad):
 
 def findSequence(codeSequence, keyPad):
     sequence = defaultdict(int)
-    for subsequence in codeSequence:
+    for subsequence in codeSequence: #Very Similar, but we iterate not on a single letter but on a subsequence from the dictionary
         nb = codeSequence[subsequence]
         start = "A"
         for letter in subsequence:
             path = findPath(start, letter, keyPad)
-            sequence[path] += nb
+            sequence[path] += nb #For each subsequence, we add the number of times it appears in the code
             start = letter
     return sequence
 
